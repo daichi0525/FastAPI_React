@@ -9,7 +9,10 @@ const TestComponent = () => {
   return (
 	<div>
 		<p>テストコンポーネント</p>
-		<button onClick={onClickChange}>+1ボタン</button>
+		<button onClick={() => setCount(count +1)}>+1ボタン</button>
+		<br />
+		<br />
+		<button onClick={onClickChange}>-2ボタン</button>
 		<h2>{count}</h2>
 	</div>
   )
