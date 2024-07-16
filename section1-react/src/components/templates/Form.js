@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 
 const Form = () => {
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
+  const [form, setForm] = useState({
+    name: "",
+    age: "",
+  });
   const handleInputChange = (event) => {
-    setName(event.target.value);
-    console.log(event);
-    console.log(event.target);
-    console.log(event.target.value);
-  }
-  const handleAgeChange = (event) => {
-    setAge(event.target.value);
-  }
+    const {name, value } = event.target;
+    console.log( name, value);
+    console.log({ ...form });
+    setForm({ ...form,[name]: value });
+  };
+
   return (
 	<>
   <form>
@@ -21,14 +21,19 @@ const Form = () => {
         id='name'
         type='text'
         name='name'
-        value={name}
+        value={form.name}
         onChange={handleInputChange}
       />
     </label>
     <br />
     <label htmlFor='age'>
       年齢
-      <select id='age' onChange={handleAgeChange}>
+      <select
+        name='age'
+        id='age'
+        value={form.age}
+        onChange={handleInputChange}
+      >
         <option value={10}>10代</option>
         <option value={20}>20代</option>
         <option value={30}>30代</option>
@@ -36,10 +41,16 @@ const Form = () => {
         <option value={50}>50代</option>
       </select>
     </label>
+    <br />
+    <label htmlFor='gender'>
+      <input id='male' name='gender' type='radio' onChange={handleInputChange} />男性
+      <input id='female' name='gender' type='radio' onChange={handleInputChange} />女性
+      <input id='other' name='gender' type='radio' onChange={handleInputChange} />その他
+    </label>
   </form>
   <p>確認用</p>
-  <p>{name}</p>
-  <p>{age}</p>
+  <p>{form.name}</p>
+  <p>{form.age}</p>
   </>
   )
 }
