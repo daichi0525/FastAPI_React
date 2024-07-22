@@ -1,18 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
-// import { TestComponent } from './components/TestComponent';
-import TestC from './components/TestComponent';
-import Form from './components/templates/Form';
+import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import Submit from "./components/pages/Submit";
+import Result from "./components/pages/Result";
 
 function App() {
   return (
     <>
-    {/* <h1>こんにちは</h1>
-    <p>こんばんは</p>
-    <TestC /> */}
-    <Form />
+      <Routes>
+        <Route path="/" element={<Submit />} />
+        <Route path="/result" element={<Result />} />
+      </Routes>
     </>
-);
+  );
 }
 
 export default App;
