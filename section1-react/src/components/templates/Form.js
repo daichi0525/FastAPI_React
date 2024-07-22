@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Form = () => {
   const [form, setForm] = useState({
@@ -12,6 +13,16 @@ const Form = () => {
     console.log(name, value);
     console.log({ ...form });
     setForm({ ...form, [name]: value });
+  };
+
+  const navigate = useNavigate();
+
+  const goToResult = () => {
+    navigate("/result");
+  };
+
+  const handleSubmit = (event) => {
+    goToResult();
   };
 
   return (
@@ -87,6 +98,8 @@ const Form = () => {
       <p>{form.age}</p>
       <p>{form.gender}</p>
       <p>{form.comment}</p>
+      <br />
+      <button onClick={handleSubmit}>送信</button>
     </>
   );
 };
