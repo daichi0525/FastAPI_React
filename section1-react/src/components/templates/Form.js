@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Form = () => {
   const [form, setForm] = useState({
@@ -100,6 +101,8 @@ const Form = () => {
       <p>{form.comment}</p>
       <br />
       <button onClick={handleSubmit}>送信</button>
+      <br />
+      <Link to="/result">結果頁へ</Link>
     </>
   );
 };
