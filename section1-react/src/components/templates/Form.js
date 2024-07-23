@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import {
   Container,
   Box,
@@ -62,6 +61,7 @@ const Form = () => {
           value={form.name}
           onChange={handleInputChange}
           fullWidth
+          name="name"
         />
         <Box sx={{ width: "100%", mt: 2 }}>
           <InputLabel id="demo-simple-select-label">年齢</InputLabel>
@@ -83,8 +83,8 @@ const Form = () => {
           <Box sx={{ border: 1, borderRadius: 1, borderColor: "grey.400" }}>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="女性"
-              name="radio-buttons-group"
+              defaultValue="female"
+              name="gender"
               onChange={handleInputChange}
             >
               <FormControlLabel
@@ -109,6 +109,7 @@ const Form = () => {
           value={form.comment}
           fullWidth
           sx={{ mt: 2 }}
+          name="comment"
         />
         <Button
           variant="contained"
