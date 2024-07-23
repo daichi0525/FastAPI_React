@@ -114,11 +114,11 @@ const Form = () => {
           endIcon={<SendIcon />}
           onClick={handleSubmit}
           sx={{ mt: 2 }}
+          fullWidth
         >
           {/* README参照：yarn add @mui/icons-material */}
           送信
         </Button>
-        <button onClick={handleSubmit}>送信</button>
       </Box>
     </Container>
   );
