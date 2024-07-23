@@ -3,7 +3,8 @@ import { useLocation } from "react-router-dom";
 
 const Result = () => {
   const location = useLocation();
-  const [result, setResult] = useState(location.state);
+  const [result] = useState(location.state);
+//   const [result, setResult] = useState(location.state);
   return (
     <>
       <h1>送信結果頁</h1>
