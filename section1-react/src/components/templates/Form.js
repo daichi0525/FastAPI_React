@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { Container, Box } from "@mui/material";
 
 const Form = () => {
   const [form, setForm] = useState({
@@ -27,8 +28,17 @@ const Form = () => {
   };
 
   return (
-    <>
-      <form>
+    <Container>
+      {/* <Box sx={{ p: 2, border: "1px dashed grey" }}> */}
+      <Box
+        sx={{
+          marginTop: 1,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        アンケート提出
+        <br />
         <label htmlFor="name">
           名前
           <input
@@ -93,17 +103,17 @@ const Form = () => {
             onChange={handleInputChange}
           ></textarea>
         </label>
-      </form>
-      <p>確認用</p>
-      <p>名前：{form.name}</p>
-      <p>年齢：{form.age}</p>
-      <p>性別：{form.gender}</p>
-      <p>備考：{form.comment}</p>
-      <br />
-      <button onClick={handleSubmit}>送信</button>
-      <br />
-      <Link to="/result">結果頁へ</Link>
-    </>
+        <p>確認用</p>
+        <p>名前：{form.name}</p>
+        <p>年齢：{form.age}</p>
+        <p>性別：{form.gender}</p>
+        <p>備考：{form.comment}</p>
+        <br />
+        <button onClick={handleSubmit}>送信</button>
+        <br />
+        <Link to="/result">結果頁へ</Link>
+      </Box>
+    </Container>
   );
 };
 export default Form;
