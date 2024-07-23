@@ -1,0 +1,8 @@
+{
+	"commentTranslate.source": "Google",
+
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"[JavaScript]": {
+	  "editor.defaultFormatter": "esbenp.prettier-vscode"
+	}
+  }
