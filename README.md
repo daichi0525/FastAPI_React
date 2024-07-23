@@ -69,7 +69,7 @@ SQLite Viewer（sqlite閲覧用ツール）
 
 ## React Router DOMのインストール
 
-まず、React Router DOMをインストールします。以下のコマンドを実行してください：
+React Router DOMをインストールします。以下のコマンドを実行してください：
 
 ```bash
 npm install react-router-dom@6.15.0
@@ -81,8 +81,19 @@ npm install react-router-dom@6.15.0
 yarn add react-router-dom
 ```
 
+## Material UIのインストール
 
+Material UI をインストールします。以下のコマンドを実行してください：
 
+```bash
+npm install @mui/material @emotion/react @emotion/styled
+```
+
+または、yarnを使用している場合：
+
+```bash
+yarn add @mui/material @emotion/react @emotion/styled
+```
 
 
 
