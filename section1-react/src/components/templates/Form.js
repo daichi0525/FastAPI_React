@@ -1,7 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Container, Box } from "@mui/material";
+import {
+  Container,
+  Box,
+  Typography,
+  TextField,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+} from "@mui/material";
 
 const Form = () => {
   const [form, setForm] = useState({
@@ -35,9 +47,66 @@ const Form = () => {
           marginTop: 1,
           display: "flex",
           flexDirection: "column",
+          alignItems: "center",
         }}
       >
-        アンケート提出
+        <Typography variant="h5" color={"red"}>
+          アンケート提出
+        </Typography>
+        <TextField
+          id="outlined-basic"
+          label="名前"
+          variant="outlined"
+          value={form.name}
+          onChange={handleInputChange}
+          fullWidth
+        />
+        <Box sx={{ width: "100%", mt: 2 }}>
+          <InputLabel id="demo-simple-select-label">年齢</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={form.age}
+            name="age"
+            onChange={handleInputChange}
+          >
+            <MenuItem value={10}>10代</MenuItem>
+            <MenuItem value={20}>20代</MenuItem>
+            <MenuItem value={30}>30代</MenuItem>
+          </Select>
+        </Box>
+        <Box sx={{ width: "100%", mt: 2 }}>
+          <FormLabel id="demo-radio-buttons-group-label">性別</FormLabel>
+          <Box sx={{ border: 1, borderRadius: 1, borderColor: "grey.400" }}>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              defaultValue="女性"
+              name="radio-buttons-group"
+              onChange={handleInputChange}
+            >
+              <FormControlLabel
+                value="female"
+                control={<Radio />}
+                label="女性"
+              />
+              <FormControlLabel value="male" control={<Radio />} label="男性" />
+              <FormControlLabel
+                value="other"
+                control={<Radio />}
+                label="その他"
+              />
+            </RadioGroup>
+          </Box>
+        </Box>
+        <TextField
+          id="outlined-basic"
+          label="コメント"
+          variant="outlined"
+          onChange={handleInputChange}
+          value={form.comment}
+          fullWidth
+          sx={{ mt: 2 }}
+        />
         <br />
         <label htmlFor="name">
           名前
@@ -57,6 +126,7 @@ const Form = () => {
             id="age"
             value={form.age}
             onChange={handleInputChange}
+            fullWidth
           >
             <option value={10}>10代</option>
             <option value={20}>20代</option>
