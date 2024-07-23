@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Form = () => {
   const [form, setForm] = useState({
     name: "",
-    age: "",
+    age: "10",
     gender: "",
     comment: "",
   });
@@ -18,12 +18,12 @@ const Form = () => {
 
   const navigate = useNavigate();
 
-  const goToResult = () => {
-    navigate("/result");
+  const goToResult = (form) => {
+    navigate("/result", { state: form });
   };
 
   const handleSubmit = (event) => {
-    goToResult();
+    goToResult(form);
   };
 
   return (
@@ -95,10 +95,10 @@ const Form = () => {
         </label>
       </form>
       <p>確認用</p>
-      <p>{form.name}</p>
-      <p>{form.age}</p>
-      <p>{form.gender}</p>
-      <p>{form.comment}</p>
+      <p>名前：{form.name}</p>
+      <p>年齢：{form.age}</p>
+      <p>性別：{form.gender}</p>
+      <p>備考：{form.comment}</p>
       <br />
       <button onClick={handleSubmit}>送信</button>
       <br />
