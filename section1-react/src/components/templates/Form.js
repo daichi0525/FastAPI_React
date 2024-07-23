@@ -42,7 +42,7 @@ const Form = () => {
   };
 
   return (
-    <Container>
+    <Container maxWidth="xs">
       {/* <Box sx={{ p: 2, border: "1px dashed grey" }}> */}
       <Box
         sx={{
@@ -71,6 +71,7 @@ const Form = () => {
             value={form.age}
             name="age"
             onChange={handleInputChange}
+            fullWidth
           >
             <MenuItem value={10}>10代</MenuItem>
             <MenuItem value={20}>20代</MenuItem>
