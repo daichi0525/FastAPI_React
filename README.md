@@ -89,7 +89,11 @@ yarn add react-router-dom
 
 ## Material UI のインストール
 
-Material UI をインストールします。以下のコマンドを実行してください：
+[引用先](https://mui.com/material-ui/getting-started/installation/)
+
+### Material UI デフォルトのインストールをします。
+
+以下のコマンドを実行してください：
 
 ```bash
 npm install @mui/material @emotion/react @emotion/styled
@@ -99,6 +103,20 @@ npm install @mui/material @emotion/react @emotion/styled
 
 ```bash
 yarn add @mui/material @emotion/react @emotion/styled
+```
+
+### Material UI アイコンのインストールをします。
+
+以下のコマンドを実行してください：
+
+```bash
+npm install @mui/icons-material
+```
+
+または、yarn を使用している場合：
+
+```bash
+yarn add @mui/icons-material
 ```
 
 ## start yarn 時にエラーが出たので対応
