@@ -282,3 +282,101 @@ console.log(getSession());
 3. **Privacy Sandbox の新技術**に対応するために、必要に応じて HTTP ヘッダーを設定する。
 
 これにより、ユーザーのプライバシーを保護しながら効果的なデータ収集と広告ターゲティングが可能になります。
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Excelのイナズマ線
+
+Excelマクロを使って、指定されたWBSデータに基づいてイナズマ線を描くコードは以下のようになります。ここでは、プロジェクト開始日と今日の日付を基準に、計画開始日、計画終了日、実績開始日、実績終了日を使用して、H列からBZ列までの日付セルに対してイナズマ線を描画します。
+
+```vba
+Sub DrawLightningLine()
+    Dim ws As Worksheet
+    Dim startDate As Date
+    Dim todayDate As Date
+    Dim planStart As Date
+    Dim planEnd As Date
+    Dim actualStart As Date
+    Dim actualEnd As Date
+    Dim i As Integer
+    Dim j As Integer
+    Dim dayCount As Integer
+    Dim dateRange As Range
+    Dim projectStart As Range
+    Dim projectEnd As Range
+    Dim actualStartDate As Range
+    Dim actualEndDate As Range
+    
+    Set ws = ThisWorkbook.Sheets("Sheet1") ' シート名を適宜変更してください
+    
+    ' プロジェクト開始日と今日の日付を取得
+    startDate = ws.Range("A1").Value
+    todayDate = ws.Range("A2").Value
+    
+    ' H列からBZ列までの日付を取得
+    Set dateRange = ws.Range("H10:BZ10")
+    
+    ' 各行のデータに基づいてイナズマ線を描く
+    For i = 11 To 50
+        planStart = ws.Cells(i, 1).Value
+        planEnd = ws.Cells(i, 3).Value
+        actualStart = ws.Cells(i, 4).Value
+        actualEnd = ws.Cells(i, 6).Value
+        
+        ' 計画開始日から終了日までの日付範囲に対して背景色を設定
+        For j = 8 To 78 ' H列は8、BZ列は78
+            If dateRange.Cells(1, j - 7).Value >= planStart And dateRange.Cells(1, j - 7).Value <= planEnd Then
+                ws.Cells(i, j).Interior.Color = RGB(255, 255, 0) ' 計画期間は黄色
+            End If
+            
+            If dateRange.Cells(1, j - 7).Value >= actualStart And dateRange.Cells(1, j - 7).Value <= actualEnd Then
+                ws.Cells(i, j).Interior.Color = RGB(0, 255, 0) ' 実績期間は緑色
+            End If
+        Next j
+        
+        ' 進捗率に基づいてイナズマ線を描く
+        Dim progressRate As Double
+        progressRate = ws.Cells(i, 7).Value ' 進捗率
+        
+        ' 計画と実績の中間点を計算
+        Dim planMidPoint As Date
+        Dim actualMidPoint As Date
+        planMidPoint = DateAdd("d", (planEnd - planStart) * progressRate, planStart)
+        actualMidPoint = DateAdd("d", (actualEnd - actualStart) * progressRate, actualStart)
+        
+        ' 計画中間点から実績中間点までのイナズマ線を描く
+        Dim k As Integer
+        For k = 8 To 78
+            If dateRange.Cells(1, k - 7).Value = planMidPoint Then
+                ws.Cells(i, k).Interior.Color = RGB(255, 0, 0) ' イナズマ線は赤色
+                Exit For
+            End If
+        Next k
+        
+        For k = 8 To 78
+            If dateRange.Cells(1, k - 7).Value = actualMidPoint Then
+                ws.Cells(i, k).Interior.Color = RGB(255, 0, 0) ' イナズマ線は赤色
+                Exit For
+            End If
+        Next k
+    Next i
+End Sub
+```
+
+このマクロでは、次のように各ステップを行っています：
+1. プロジェクト開始日と今日の日付を取得。
+2. 各タスクの計画開始日、計画終了日、実績開始日、実績終了日を取得。
+3. 計画期間と実績期間に応じてH列からBZ列までのセルの背景色を変更。
+4. 進捗率に基づいて計画と実績の中間点を計算し、その間にイナズマ線を描画。
+
+このマクロを実行することで、WBSの内容に基づいてイナズマ線が描画されます。必要に応じてセルの範囲やシート名を変更してください。
