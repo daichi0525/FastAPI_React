@@ -308,14 +308,13 @@ Sub DrawLightningLine()
     Dim planEnd As Date
     Dim actualStart As Date
     Dim actualEnd As Date
+    Dim progressRate As Double
     Dim i As Integer
     Dim j As Integer
-    Dim dayCount As Integer
-    Dim dateRange As Range
-    Dim projectStart As Range
-    Dim projectEnd As Range
-    Dim actualStartDate As Range
-    Dim actualEndDate As Range
+    Dim x1 As Single, y1 As Single, x2 As Single, y2 As Single
+    Dim shape As Shape
+    Dim lineCoords As Variant
+    Dim shapeName As String
     
     Set ws = ThisWorkbook.Sheets("Sheet1") ' シート名を適宜変更してください
     
@@ -323,8 +322,14 @@ Sub DrawLightningLine()
     startDate = ws.Range("A1").Value
     todayDate = ws.Range("A2").Value
     
-    ' H列からBZ列までの日付を取得
+    ' 日付の範囲
+    Dim dateRange As Range
     Set dateRange = ws.Range("H10:BZ10")
+    
+    ' 既存のイナズマ線を削除
+    For Each shape In ws.Shapes
+        If shape.Name Like "LightningLine*" Then shape.Delete
+    Next shape
     
     ' 各行のデータに基づいてイナズマ線を描く
     For i = 11 To 50
@@ -332,45 +337,44 @@ Sub DrawLightningLine()
         planEnd = ws.Cells(i, 3).Value
         actualStart = ws.Cells(i, 4).Value
         actualEnd = ws.Cells(i, 6).Value
-        
-        ' 計画開始日から終了日までの日付範囲に対して背景色を設定
-        For j = 8 To 78 ' H列は8、BZ列は78
-            If dateRange.Cells(1, j - 7).Value >= planStart And dateRange.Cells(1, j - 7).Value <= planEnd Then
-                ws.Cells(i, j).Interior.Color = RGB(255, 255, 0) ' 計画期間は黄色
-            End If
-            
-            If dateRange.Cells(1, j - 7).Value >= actualStart And dateRange.Cells(1, j - 7).Value <= actualEnd Then
-                ws.Cells(i, j).Interior.Color = RGB(0, 255, 0) ' 実績期間は緑色
-            End If
-        Next j
-        
-        ' 進捗率に基づいてイナズマ線を描く
-        Dim progressRate As Double
         progressRate = ws.Cells(i, 7).Value ' 進捗率
         
-        ' 計画と実績の中間点を計算
-        Dim planMidPoint As Date
-        Dim actualMidPoint As Date
-        planMidPoint = DateAdd("d", (planEnd - planStart) * progressRate, planStart)
-        actualMidPoint = DateAdd("d", (actualEnd - actualStart) * progressRate, actualStart)
+        ' イナズマ線の座標を計算
+        x1 = GetXCoordinate(ws, startDate, planStart, todayDate)
+        y1 = ws.Cells(i, 8).Top + ws.Cells(i, 8).Height / 2
         
-        ' 計画中間点から実績中間点までのイナズマ線を描く
-        Dim k As Integer
-        For k = 8 To 78
-            If dateRange.Cells(1, k - 7).Value = planMidPoint Then
-                ws.Cells(i, k).Interior.Color = RGB(255, 0, 0) ' イナズマ線は赤色
-                Exit For
-            End If
-        Next k
+        x2 = GetXCoordinate(ws, startDate, actualEnd, todayDate)
+        y2 = ws.Cells(i, 78).Top + ws.Cells(i, 78).Height / 2
         
-        For k = 8 To 78
-            If dateRange.Cells(1, k - 7).Value = actualMidPoint Then
-                ws.Cells(i, k).Interior.Color = RGB(255, 0, 0) ' イナズマ線は赤色
-                Exit For
-            End If
-        Next k
+        ' イナズマ線を描く
+        shapeName = "LightningLine" & i
+        Set shape = ws.Shapes.AddLine(x1, y1, x2, y2)
+        shape.Name = shapeName
+        shape.Line.ForeColor.RGB = RGB(255, 0, 0) ' 赤色
+        shape.Line.Weight = 2
     Next i
 End Sub
+
+Function GetXCoordinate(ws As Worksheet, startDate As Date, targetDate As Date, todayDate As Date) As Single
+    Dim dateRange As Range
+    Dim col As Integer
+    Dim x As Single
+    
+    Set dateRange = ws.Range("H10:BZ10")
+    
+    For col = 8 To 78 ' H列は8、BZ列は78
+        If dateRange.Cells(1, col - 7).Value = targetDate Then
+            x = dateRange.Cells(1, col - 7).Left + dateRange.Cells(1, col - 7).Width / 2
+            Exit For
+        End If
+    Next col
+    
+    If targetDate = todayDate Then
+        x = dateRange.Cells(1, col - 7).Left + dateRange.Cells(1, col - 7).Width / 2
+    End If
+    
+    GetXCoordinate = x
+End Function
 ```
 
 このマクロでは、次のように各ステップを行っています：
