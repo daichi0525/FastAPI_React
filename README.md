@@ -148,6 +148,116 @@ npm install
 yarn add @babel/plugin-proposal-private-property-in-object --dev
 ```
 
+## 補完機能
+
+React の`import`文の予測変換や補完機能を強化するためには、以下の手順を重点的に実施すると良いでしょう。
+
+### 必須手順
+
+1. **JavaScript (ES6) code snippets のインストール**
+
+   - これは React や JavaScript のコードスニペットを提供するため、最も基本的で効果的な手順です。
+
+   ```bash
+   code --install-extension xabikos.JavaScriptSnippets
+   ```
+
+2. **Auto Import のインストール**
+
+   - `import`文の自動補完を実現するために非常に有用です。
+
+   ※今回入れたもの：Auto Import - ES6, TS, JSX, TSX
+
+   ```bash
+   code --install-extension steoates.autoimport
+   ```
+
+3. **ESLint のインストールと設定**
+
+   - コード品質の向上と補完機能の強化に役立ちます。特に、コードの一貫性を保つために有用です。
+   - `eslint`を使う場合、プロジェクトのルートに`.eslintrc.json`ファイルを作成して設定を追加します。
+
+   プロジェクト内で ESLint が正しく設定されていることを確認してください。以下のコマンドを実行して、必要なパッケージをインストールします。
+
+   ```bash
+   yarn add eslint eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-jsx-a11y @typescript-eslint/eslint-plugin @typescript-eslint/parser --dev
+   ```
+
+   プロジェクトのルートに`.eslintrc.json`ファイルを作成し、ESLint の設定を追加します。
+
+   ```json
+   {
+     "env": {
+       "browser": true,
+       "es2021": true
+     },
+     "extends": [
+       "eslint:recommended",
+       "plugin:react/recommended",
+       "plugin:@typescript-eslint/recommended",
+       "prettier"
+     ],
+     "parser": "@typescript-eslint/parser",
+     "parserOptions": {
+       "ecmaFeatures": {
+         "jsx": true
+       },
+       "ecmaVersion": 12,
+       "sourceType": "module"
+     },
+     "plugins": ["react", "@typescript-eslint"],
+     "rules": {}
+   }
+   ```
+
+4. **Prettier のインストールと設定**
+
+   - コードの整形を自動で行い、コードの一貫性を保つために有用です。
+   - `prettier`を使う場合、プロジェクトのルートに`.prettierrc`ファイルを作成して設定を追加します。
+
+   Prettier をインストールして、`.prettierrc.js`ファイルを作成します。
+
+   ```bash
+   yarn add prettier eslint-config-prettier eslint-plugin-prettier --dev
+   ```
+
+   **.prettierrc**:
+
+   ```json
+   {
+     "singleQuote": true,
+     "trailingComma": "all",
+     "arrowParens": "always"
+   }
+   ```
+
+5. **テーマ設定**
+
+   - プロジェクト全体で一貫したスタイルを適用するために有用ですが、補完機能とは直接関係しません。
+
+6. **VSCode 設定の調整**
+
+   VSCode の設定ファイル (`settings.json`) に以下の設定を追加して、自動補完とコード整形を有効にします。
+
+   ```json
+   {
+     "editor.formatOnSave": true,
+     "editor.codeActionsOnSave": {
+       "source.fixAll.eslint": true
+     },
+     "eslint.alwaysShowStatus": true,
+     "javascript.updateImportsOnFileMove.enabled": "always",
+     "typescript.updateImportsOnFileMove.enabled": "always"
+   }
+   ```
+
+### まとめ
+
+- まず、**JavaScript (ES6) code snippets** と **Auto Import** をインストールし、設定を調整することをお勧めします。
+- コード品質の向上や一貫性のために、**ESLint** と **Prettier** の設定を追加することを検討してください。
+
+この手順に従うことで、VSCode で React の`import`文の予測変換が有効になり、効率的に開発を進めることができるでしょう。
+
 # 今後必要になってくる対応
 
 ## 2024/7/22~サードパーティー対応
@@ -282,105 +392,3 @@ console.log(getSession());
 3. **Privacy Sandbox の新技術**に対応するために、必要に応じて HTTP ヘッダーを設定する。
 
 これにより、ユーザーのプライバシーを保護しながら効果的なデータ収集と広告ターゲティングが可能になります。
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Excelのイナズマ線
-
-Excelマクロを使って、指定されたWBSデータに基づいてイナズマ線を描くコードは以下のようになります。ここでは、プロジェクト開始日と今日の日付を基準に、計画開始日、計画終了日、実績開始日、実績終了日を使用して、H列からBZ列までの日付セルに対してイナズマ線を描画します。
-
-```vba
-Sub DrawLightningLine()
-    Dim ws As Worksheet
-    Dim startDate As Date
-    Dim todayDate As Date
-    Dim planStart As Date
-    Dim planEnd As Date
-    Dim actualStart As Date
-    Dim actualEnd As Date
-    Dim progressRate As Double
-    Dim i As Integer
-    Dim j As Integer
-    Dim x1 As Single, y1 As Single, x2 As Single, y2 As Single
-    Dim shape As Shape
-    Dim lineCoords As Variant
-    Dim shapeName As String
-    
-    Set ws = ThisWorkbook.Sheets("Sheet1") ' シート名を適宜変更してください
-    
-    ' プロジェクト開始日と今日の日付を取得
-    startDate = ws.Range("A1").Value
-    todayDate = ws.Range("A2").Value
-    
-    ' 日付の範囲
-    Dim dateRange As Range
-    Set dateRange = ws.Range("H10:BZ10")
-    
-    ' 既存のイナズマ線を削除
-    For Each shape In ws.Shapes
-        If shape.Name Like "LightningLine*" Then shape.Delete
-    Next shape
-    
-    ' 各行のデータに基づいてイナズマ線を描く
-    For i = 11 To 50
-        planStart = ws.Cells(i, 1).Value
-        planEnd = ws.Cells(i, 3).Value
-        actualStart = ws.Cells(i, 4).Value
-        actualEnd = ws.Cells(i, 6).Value
-        progressRate = ws.Cells(i, 7).Value ' 進捗率
-        
-        ' イナズマ線の座標を計算
-        x1 = GetXCoordinate(ws, startDate, planStart, todayDate)
-        y1 = ws.Cells(i, 8).Top + ws.Cells(i, 8).Height / 2
-        
-        x2 = GetXCoordinate(ws, startDate, actualEnd, todayDate)
-        y2 = ws.Cells(i, 78).Top + ws.Cells(i, 78).Height / 2
-        
-        ' イナズマ線を描く
-        shapeName = "LightningLine" & i
-        Set shape = ws.Shapes.AddLine(x1, y1, x2, y2)
-        shape.Name = shapeName
-        shape.Line.ForeColor.RGB = RGB(255, 0, 0) ' 赤色
-        shape.Line.Weight = 2
-    Next i
-End Sub
-
-Function GetXCoordinate(ws As Worksheet, startDate As Date, targetDate As Date, todayDate As Date) As Single
-    Dim dateRange As Range
-    Dim col As Integer
-    Dim x As Single
-    
-    Set dateRange = ws.Range("H10:BZ10")
-    
-    For col = 8 To 78 ' H列は8、BZ列は78
-        If dateRange.Cells(1, col - 7).Value = targetDate Then
-            x = dateRange.Cells(1, col - 7).Left + dateRange.Cells(1, col - 7).Width / 2
-            Exit For
-        End If
-    Next col
-    
-    If targetDate = todayDate Then
-        x = dateRange.Cells(1, col - 7).Left + dateRange.Cells(1, col - 7).Width / 2
-    End If
-    
-    GetXCoordinate = x
-End Function
-```
-
-このマクロでは、次のように各ステップを行っています：
-1. プロジェクト開始日と今日の日付を取得。
-2. 各タスクの計画開始日、計画終了日、実績開始日、実績終了日を取得。
-3. 計画期間と実績期間に応じてH列からBZ列までのセルの背景色を変更。
-4. 進捗率に基づいて計画と実績の中間点を計算し、その間にイナズマ線を描画。
-
-このマクロを実行することで、WBSの内容に基づいてイナズマ線が描画されます。必要に応じてセルの範囲やシート名を変更してください。

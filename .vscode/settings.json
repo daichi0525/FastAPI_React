@@ -1,8 +1,15 @@
 {
-	"commentTranslate.source": "Google",
+  "commentTranslate.source": "Google",
 
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"[JavaScript]": {
-	  "editor.defaultFormatter": "esbenp.prettier-vscode"
-	}
-  }
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[JavaScript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.alwaysShowStatus": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always"
+}
