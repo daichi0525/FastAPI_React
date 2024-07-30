@@ -1,7 +1,56 @@
-import React from "react";
+import React from 'react';
+import { Container, Box, Typography, TextField, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
-  return <div>ログイン画面</div>;
+  return (
+    <>
+      <Container maxWidth="xs">
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="h5">ログイン画面</Typography>
+
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="username"
+            label="名前"
+            // type="password"
+            id="username"
+            // autoComplete="current-password"
+          />
+
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="パスワード"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+          />
+
+          <Button
+            // type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            ログイン
+          </Button>
+          <Link to="/register">新規登録はこちら</Link>
+        </Box>
+      </Container>
+    </>
+  );
 };
 
 export default Login;
